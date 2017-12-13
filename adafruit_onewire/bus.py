@@ -39,11 +39,11 @@ _MATCH_ROM = const(0x55)
 _SKIP_ROM = const(0xCC)
 
 class OneWireError(Exception):
-    """A class to repesent a 1-Wire exception."""
+    """A class to represent a 1-Wire exception."""
     pass
 
 class OneWireAddress(object):
-    """A class to repesent a 1-Wire address."""
+    """A class to represent a 1-Wire address."""
 
     def __init__(self, rom):
         self._rom = rom
@@ -69,7 +69,7 @@ class OneWireAddress(object):
         return self._rom[0]
 
 class OneWireBus(object):
-    """A class to repesent a 1-Wire bus."""
+    """A class to represent a 1-Wire bus."""
 
     def __init__(self, pin):
         self._ow = busio.OneWire(pin)
