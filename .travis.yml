@@ -25,6 +25,8 @@ install:
   - pip install pylint circuitpython-build-tools
 
 script:
-  - pylint adafruit_onewire/*.py
+  - pylint --version
+  - pylint adafruit_onewire/bus.py
+  - pylint adafruit_onewire/device.py
   - ([[ ! -d "examples" ]] || pylint --disable=missing-docstring,invalid-name examples/*.py)
   - circuitpython-build-bundles --filename_prefix adafruit-circuitpython-onewire --library_location .
