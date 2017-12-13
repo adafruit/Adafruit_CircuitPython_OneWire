@@ -39,9 +39,10 @@ _MATCH_ROM = const(0x55)
 _SKIP_ROM = const(0xCC)
 
 class OneWireError(Exception):
+    """A class to repesent a 1-Wire exception."""
     pass
 
-class OneWireAddress:
+class OneWireAddress(object):
     """A class to repesent a 1-Wire address."""
 
     def __init__(self, rom):
@@ -67,7 +68,7 @@ class OneWireAddress:
         """The 8 bit family code."""
         return self._rom[0]
 
-class OneWireBus:
+class OneWireBus(object):
     """A class to repesent a 1-Wire bus."""
 
     def __init__(self, pin):
@@ -103,7 +104,7 @@ class OneWireBus:
             start = kwargs['start']
         if 'end' in kwargs:
             end = kwargs['end']
-        for i in range(start,end):
+        for i in range(start, end):
             buf[i] = self._readbyte()
 
     def write(self, buf, **kwargs):
@@ -197,8 +198,8 @@ class OneWireBus:
         for byte in data:
             crc ^= byte
             for bit in range(8):
-                if (crc & 0x01):
-                    crc = ( crc >> 1 ) ^ 0x8C
+                if crc & 0x01:
+                    crc = (crc >> 1) ^ 0x8C
                 else:
                     crc >>= 1
                 crc &= 0xFF
