@@ -133,7 +133,7 @@ class OneWireBus(object):
         devices = []
         diff = 65
         rom = False
-        for i in range(0xff):
+        for i in range(0xff): # pylint: disable=unused-variable
             rom, diff = self._search_rom(rom, diff)
             if rom:
                 devices += [OneWireAddress(rom)]
@@ -187,7 +187,7 @@ class OneWireBus(object):
             rom[byte] = r_b
         return rom, next_diff
 
-    def crc8(self, data):
+    def crc8(self, data): # pylint: disable=no-self-use
         """
         Perform the 1-Wire CRC check on the provided data.
 
@@ -197,7 +197,7 @@ class OneWireBus(object):
 
         for byte in data:
             crc ^= byte
-            for bit in range(8):
+            for bit in range(8): # pylint: disable=unused-variable
                 if crc & 0x01:
                     crc = (crc >> 1) ^ 0x8C
                 else:
