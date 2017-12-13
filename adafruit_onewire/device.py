@@ -36,7 +36,7 @@ from micropython import const
 _MATCH_ROM = const(0x55)
 
 class OneWireDevice(object):
-    """A class to repesent a single device on the 1-Wire bus."""
+    """A class to represent a single device on the 1-Wire bus."""
 
     def __init__(self, bus, address):
         self._bus = bus
