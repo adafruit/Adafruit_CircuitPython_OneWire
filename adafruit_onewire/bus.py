@@ -135,17 +135,11 @@ class OneWireBus(object):
                 break
         return devices
 
-    #def _readbit(self):
-    #    return self._ow.read_bit()
-
     def _readbyte(self):
         val = 0
         for i in range(8):
             val |= self._ow.read_bit() << i
         return val
-
-    #def _writebit(self, value):
-    #    return self._ow.write_bit(value)
 
     def _writebyte(self, value):
         for i in range(8):
