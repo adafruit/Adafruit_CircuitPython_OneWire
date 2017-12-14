@@ -73,6 +73,8 @@ class OneWireBus(object):
 
     def __init__(self, pin):
         self._ow = busio.OneWire(pin)
+        self._readbit = self._ow.read_bit
+        self._writebit = self._ow.write_bit
 
     def reset(self, required=False):
         """
@@ -133,8 +135,8 @@ class OneWireBus(object):
                 break
         return devices
 
-    def _readbit(self):
-        return self._ow.read_bit()
+    #def _readbit(self):
+    #    return self._ow.read_bit()
 
     def _readbyte(self):
         val = 0
@@ -142,8 +144,8 @@ class OneWireBus(object):
             val |= self._ow.read_bit() << i
         return val
 
-    def _writebit(self, value):
-        return self._ow.write_bit(value)
+    #def _writebit(self, value):
+    #    return self._ow.write_bit(value)
 
     def _writebyte(self, value):
         for i in range(8):
