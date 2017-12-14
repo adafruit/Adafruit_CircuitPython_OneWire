@@ -34,7 +34,7 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_OneWire.git"
 _MATCH_ROM = b'\x55'
 
 class OneWireDevice(object):
-    """A class to repesent a single device on the 1-Wire bus."""
+    """A class to represent a single device on the 1-Wire bus."""
 
     def __init__(self, bus, address):
         self._bus = bus
