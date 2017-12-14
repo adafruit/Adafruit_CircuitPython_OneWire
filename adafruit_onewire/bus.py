@@ -82,10 +82,10 @@ class OneWireBus(object):
         """
         reset = self._ow.reset()
         if required and reset:
-            raise OneWireError
+            raise OneWireError("No presence pulse found. Check devices and wiring.")
         return not reset
 
-    def readinto(self, buf, **kwargs):
+    def readinto(self, buf, *, start=0, end=None):
         """
         Read into ``buf`` from the device. The number of bytes read will be the
         length of ``buf``.
@@ -98,16 +98,12 @@ class OneWireBus(object):
         :param int start: Index to start writing at
         :param int end: Index to write up to but not include
         """
-        start = 0
-        end = len(buf)
-        if 'start' in kwargs:
-            start = kwargs['start']
-        if 'end' in kwargs:
-            end = kwargs['end']
+        if end is None:
+            end = len(buf)
         for i in range(start, end):
             buf[i] = self._readbyte()
 
-    def write(self, buf, **kwargs):
+    def write(self, buf, *, start=0, end=None):
         """
         Write the bytes from ``buf`` to the device.
 
@@ -119,12 +115,8 @@ class OneWireBus(object):
         :param int start: Index to start writing from
         :param int end: Index to read up to but not include
         """
-        start = 0
-        end = len(buf)
-        if 'start' in kwargs:
-            start = kwargs['start']
-        if 'end' in kwargs:
-            end = kwargs['end']
+        if end is None:
+            end = len(buf)
         for i in range(start, end):
             self._writebyte(buf[i])
 
@@ -133,10 +125,10 @@ class OneWireBus(object):
         devices = []
         diff = 65
         rom = False
-        for i in range(0xff): # pylint: disable=unused-variable
+        for _ in range(0xff):
             rom, diff = self._search_rom(rom, diff)
             if rom:
-                devices += [OneWireAddress(rom)]
+                devices.append(OneWireAddress(rom))
             if diff == 0:
                 break
         return devices
@@ -181,13 +173,13 @@ class OneWireBus(object):
                             b = 1
                             next_diff = i
                 self._writebit(b)
-                if b:
-                    r_b |= 1 << bit
+                r_b |= b << bit
                 i -= 1
             rom[byte] = r_b
         return rom, next_diff
 
-    def crc8(self, data): # pylint: disable=no-self-use
+    @staticmethod
+    def crc8(data):
         """
         Perform the 1-Wire CRC check on the provided data.
 

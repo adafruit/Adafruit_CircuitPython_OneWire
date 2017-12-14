@@ -29,14 +29,13 @@ Usage Example
 
 .. code-block:: python
 
-    >>> import board
-    >>> from adafruit_onewire.bus import OneWireBus
-    >>> ow_bus = OneWireBus(board.D2)
-    >>> devices = ow_bus.scan()
-    >>> for d in devices:
-    ...     print("ROM={}\tFamily=0x{:02x}".format(d.rom, d.family_code))
-    ...
-    ROM=bytearray(b'(\xff\xc3\x80\xc2\x16\x04\xc6') Family=0x28
+    import board
+    from adafruit_onewire.bus import OneWireBus
+    ow_bus = OneWireBus(board.D2)
+    devices = ow_bus.scan()
+    for d in devices:
+        print("ROM={}\tFamily=0x{:02x}".format(d.rom, d.family_code))
+
 
 API Reference
 =============
@@ -57,22 +56,22 @@ Building locally
 ================
 
 To build this library locally you'll need to install the
-`circuitpython-travis-build-tools <https://github.com/adafruit/circuitpython-build-tools>`_ package.
+`circuitpython-build-tools <https://github.com/adafruit/circuitpython-build-tools>`_ package.
 
-.. code-block::shell
+.. code-block:: shell
 
     python3 -m venv .env
     source .env/bin/activate
-    pip install -r requirements.txt
+    pip install circuitpython-build-tools
 
 Once installed, make sure you are in the virtual environment:
 
-.. code-block::shell
+.. code-block:: shell
 
     source .env/bin/activate
 
 Then run the build:
 
-.. code-block::shell
+.. code-block:: shell
 
-    circuitpython-build-bundles --filename_prefix adafruit-circuitpython-onewire --library_location .
+    circuitpython-build-bundles --filename_prefix {% if cookiecutter.library_prefix %}{{ cookiecutter.library_prefix | lower }}-{% endif %}circuitpython-{{ cookiecutter.library_name | lower }} --library_location .

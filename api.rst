@@ -1,8 +1,8 @@
 
 .. If you created a package, create one automodule per module in the package.
 
-.. automodule:: onewire_bus
+.. automodule:: adafruit_onewire.bus
    :members:
 
-.. automodule:: onewire_device
+.. automodule:: adafruit_onewire.device
    :members:

@@ -31,9 +31,7 @@ Provides access to a single device on the 1-Wire bus.
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_OneWire.git"
 
-from micropython import const
-
-_MATCH_ROM = const(0x55)
+_MATCH_ROM = b'\x55'
 
 class OneWireDevice(object):
     """A class to repesent a single device on the 1-Wire bus."""
@@ -49,7 +47,7 @@ class OneWireDevice(object):
     def __exit__(self, *exc):
         return False
 
-    def readinto(self, buf, **kwargs):
+    def readinto(self, buf, *, start=0, end=None):
         """
         Read into ``buf`` from the device. The number of bytes read will be the
         length of ``buf``.
@@ -62,12 +60,12 @@ class OneWireDevice(object):
         :param int start: Index to start writing at
         :param int end: Index to write up to but not include
         """
-        self._bus.readinto(buf, **kwargs)
-        if kwargs is None and len(buf) >= 8:
+        self._bus.readinto(buf, start=start, end=end)
+        if start == 0 and end is None and len(buf) >= 8:
             if self._bus.crc8(buf):
-                raise Exception('CRC error')
+                raise RuntimeError('CRC error.')
 
-    def write(self, buf, **kwargs):
+    def write(self, buf, *, start=0, end=None):
         """
         Write the bytes from ``buf`` to the device.
 
@@ -79,9 +77,9 @@ class OneWireDevice(object):
         :param int start: Index to start writing from
         :param int end: Index to read up to but not include
         """
-        return self._bus.write(buf, **kwargs)
+        return self._bus.write(buf, start=start, end=end)
 
     def _select_rom(self):
         self._bus.reset()
-        self.write(bytearray([_MATCH_ROM]))
+        self.write(_MATCH_ROM)
         self.write(self._address.rom)
