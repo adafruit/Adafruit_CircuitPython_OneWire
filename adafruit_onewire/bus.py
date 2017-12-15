@@ -185,7 +185,7 @@ class OneWireBus(object):
 
         for byte in data:
             crc ^= byte
-            for bit in range(8): # pylint: disable=unused-variable
+            for _ in range(8):
                 if crc & 0x01:
                     crc = (crc >> 1) ^ 0x8C
                 else:

@@ -2,7 +2,7 @@
 Introduction
 ============
 
-.. image:: https://readthedocs.org/projects/adafruit-circuitpython-OneWire/badge/?version=latest
+.. image:: https://readthedocs.org/projects/adafruit-circuitpython-onewire/badge/?version=latest
 
     :target: https://circuitpython.readthedocs.io/projects/onewire/en/latest/
 
@@ -74,4 +74,4 @@ Then run the build:
 
 .. code-block:: shell
 
-    circuitpython-build-bundles --filename_prefix {% if cookiecutter.library_prefix %}{{ cookiecutter.library_prefix | lower }}-{% endif %}circuitpython-{{ cookiecutter.library_name | lower }} --library_location .
+    circuitpython-build-bundles --filename_prefix adafruit-circuitpython-onewire --library_location .
