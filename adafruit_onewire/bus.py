@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`OneWire Bus`
+`adafruit_onewire.bus`
 ====================================================
 
 Provide access to a 1-Wire bus.
