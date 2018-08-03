@@ -72,6 +72,7 @@ class OneWireBus(object):
     """A class to represent a 1-Wire bus."""
 
     def __init__(self, pin):
+        # pylint: disable=no-member
         self._ow = busio.OneWire(pin)
         self._readbit = self._ow.read_bit
         self._writebit = self._ow.write_bit
