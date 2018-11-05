@@ -151,7 +151,9 @@ class OneWireBus(object):
             if rom:
                 count += 1
                 if count > self.maximum_devices:
-                    raise RuntimeError("Maximum device count of {} exceeded.".format(self.maximum_devices))
+                    raise RuntimeError(
+                        "Maximum device count of {} exceeded."\
+                        .format(self.maximum_devices))
                 devices.append(OneWireAddress(rom))
             if diff == 0:
                 break
