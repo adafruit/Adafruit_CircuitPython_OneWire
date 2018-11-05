@@ -37,6 +37,7 @@ from micropython import const
 _SEARCH_ROM = const(0xF0)
 _MATCH_ROM = const(0x55)
 _SKIP_ROM = const(0xCC)
+_MAX_DEV = const(10)
 
 class OneWireError(Exception):
     """A class to represent a 1-Wire exception."""
@@ -76,6 +77,22 @@ class OneWireBus(object):
         self._ow = busio.OneWire(pin)
         self._readbit = self._ow.read_bit
         self._writebit = self._ow.write_bit
+        self._maximum_devices = _MAX_DEV
+
+    @property
+    def maximum_devices(self):
+        """The maximum number of devices the bus will scan for. Valid range is 1 to 255.
+        It is an error to have more devices on the bus than this number. Having less is OK.
+        """
+        return self._maximum_devices
+
+    @maximum_devices.setter
+    def maximum_devices(self, count):
+        if not isinstance(count, int):
+            raise ValueError("Maximum must be an integer value 1 - 255.")
+        if count < 1 or count > 0xff:
+            raise ValueError("Maximum must be an integer value 1 - 255.")
+        self._maximum_devices = count
 
     def reset(self, required=False):
         """
@@ -128,9 +145,13 @@ class OneWireBus(object):
         devices = []
         diff = 65
         rom = False
+        count = 0
         for _ in range(0xff):
             rom, diff = self._search_rom(rom, diff)
             if rom:
+                count += 1
+                if count > self.maximum_devices:
+                    raise RuntimeError("Maximum device count of {} exceeded.".format(self.maximum_devices))
                 devices.append(OneWireAddress(rom))
             if diff == 0:
                 break
