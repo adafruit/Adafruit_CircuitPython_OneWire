@@ -10,8 +10,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://travis-ci.com/adafruit/Adafruit_CircuitPython_OneWire.svg?branch=master
-    :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_OneWire
+.. image:: https://github.com/adafruit/Adafruit_CircuitPython_OneWire/workflows/Build%20CI/badge.svg
+    :target: https://github.com/adafruit/Adafruit_CircuitPython_OneWire/actions/
     :alt: Build Status
 
 Classes for use in communicating with devices on a 1-Wire bus.
