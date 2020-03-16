@@ -39,11 +39,12 @@ _MATCH_ROM = const(0x55)
 _SKIP_ROM = const(0xCC)
 _MAX_DEV = const(10)
 
+
 class OneWireError(Exception):
     """A class to represent a 1-Wire exception."""
-    pass
 
-class OneWireAddress(object):
+
+class OneWireAddress:
     """A class to represent a 1-Wire address."""
 
     def __init__(self, rom):
@@ -69,7 +70,8 @@ class OneWireAddress(object):
         """The 8 bit family code."""
         return self._rom[0]
 
-class OneWireBus(object):
+
+class OneWireBus:
     """A class to represent a 1-Wire bus."""
 
     def __init__(self, pin):
@@ -90,7 +92,7 @@ class OneWireBus(object):
     def maximum_devices(self, count):
         if not isinstance(count, int):
             raise ValueError("Maximum must be an integer value 1 - 255.")
-        if count < 1 or count > 0xff:
+        if count < 1 or count > 0xFF:
             raise ValueError("Maximum must be an integer value 1 - 255.")
         self._maximum_devices = count
 
@@ -146,14 +148,16 @@ class OneWireBus(object):
         diff = 65
         rom = False
         count = 0
-        for _ in range(0xff):
+        for _ in range(0xFF):
             rom, diff = self._search_rom(rom, diff)
             if rom:
                 count += 1
                 if count > self.maximum_devices:
                     raise RuntimeError(
-                        "Maximum device count of {} exceeded."\
-                        .format(self.maximum_devices))
+                        "Maximum device count of {} exceeded.".format(
+                            self.maximum_devices
+                        )
+                    )
                 devices.append(OneWireAddress(rom))
             if diff == 0:
                 break
@@ -169,7 +173,6 @@ class OneWireBus(object):
         for i in range(8):
             bit = (value >> i) & 0x1
             self._ow.write_bit(bit)
-        return
 
     def _search_rom(self, l_rom, diff):
         if not self.reset():
@@ -185,10 +188,10 @@ class OneWireBus(object):
             for bit in range(8):
                 b = self._readbit()
                 if self._readbit():
-                    if b: # there are no devices or there is an error on the bus
+                    if b:  # there are no devices or there is an error on the bus
                         return None, 0
                 else:
-                    if not b: # collision, two devices with different bit meaning
+                    if not b:  # collision, two devices with different bit meaning
                         if diff > i or ((l_rom[byte] & (1 << bit)) and diff != i):
                             b = 1
                             next_diff = i

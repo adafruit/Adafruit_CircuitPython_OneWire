@@ -31,9 +31,10 @@ Provides access to a single device on the 1-Wire bus.
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_OneWire.git"
 
-_MATCH_ROM = b'\x55'
+_MATCH_ROM = b"\x55"
 
-class OneWireDevice(object):
+
+class OneWireDevice:
     """A class to represent a single device on the 1-Wire bus."""
 
     def __init__(self, bus, address):
@@ -63,7 +64,7 @@ class OneWireDevice(object):
         self._bus.readinto(buf, start=start, end=end)
         if start == 0 and end is None and len(buf) >= 8:
             if self._bus.crc8(buf):
-                raise RuntimeError('CRC error.')
+                raise RuntimeError("CRC error.")
 
     def write(self, buf, *, start=0, end=None):
         """
