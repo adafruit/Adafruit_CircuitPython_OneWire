@@ -26,6 +26,8 @@ Please ensure all dependencies are available on the CircuitPython filesystem.
 This is easily achieved by downloading
 `the Adafruit library and driver bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_.
 
+**Note:** This library does **not** work on the Raspberry Pi as there is no kernel interface for it
+
 Usage Example
 =============
 
