@@ -41,6 +41,11 @@ Usage Example
         print("ROM={}\tFamily=0x{:02x}".format(d.rom, d.family_code))
 
 
+Documentation
+=============
+
+API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/onewire/en/latest/>`_.
+
 Contributing
 ============
 
