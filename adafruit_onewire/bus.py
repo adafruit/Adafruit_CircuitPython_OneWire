@@ -96,7 +96,9 @@ class OneWireBus:
             raise OneWireError("No presence pulse found. Check devices and wiring.")
         return not reset
 
-    def readinto(self, buf: bytearray, *, start: int = 0, end: Optional[int] = None) -> None:
+    def readinto(
+        self, buf: bytearray, *, start: int = 0, end: Optional[int] = None
+    ) -> None:
         """
         Read into ``buf`` from the device. The number of bytes read will be the
         length of ``buf``.
@@ -114,7 +116,9 @@ class OneWireBus:
         for i in range(start, end):
             buf[i] = self._readbyte()
 
-    def write(self, buf: bytearray, *, start: int = 0, end: Optional[int] = None) -> None:
+    def write(
+        self, buf: bytearray, *, start: int = 0, end: Optional[int] = None
+    ) -> None:
         """
         Write the bytes from ``buf`` to the device.
 
@@ -163,7 +167,9 @@ class OneWireBus:
             bit = (value >> i) & 0x1
             self._ow.write_bit(bit)
 
-    def _search_rom(self, l_rom: Optional[bytearray], diff: int) -> Tuple[bytearray, int]:
+    def _search_rom(
+        self, l_rom: Optional[bytearray], diff: int
+    ) -> Tuple[bytearray, int]:
         if not self.reset():
             return None, 0
         self._writebyte(_SEARCH_ROM)

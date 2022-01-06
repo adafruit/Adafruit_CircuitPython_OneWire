@@ -31,14 +31,21 @@ class OneWireDevice:
         self._bus = bus
         self._address = address
 
-    def __enter__(self) -> 'OneWireDevice':
+    def __enter__(self) -> "OneWireDevice":
         self._select_rom()
         return self
 
-    def __exit__(self, exception_type: Optional[Type[type]], exception_value: Optional[BaseException], traceback: Optional[TracebackType]) -> bool:
+    def __exit__(
+        self,
+        exception_type: Optional[Type[type]],
+        exception_value: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -> bool:
         return False
 
-    def readinto(self, buf: bytearray, *, start: int = 0, end: Optional[int] = None) -> None:
+    def readinto(
+        self, buf: bytearray, *, start: int = 0, end: Optional[int] = None
+    ) -> None:
         """
         Read into ``buf`` from the device. The number of bytes read will be the
         length of ``buf``.
@@ -56,7 +63,9 @@ class OneWireDevice:
             if self._bus.crc8(buf):
                 raise RuntimeError("CRC error.")
 
-    def write(self, buf: bytearray, *, start: int = 0, end: Optional[int] = None) -> None:
+    def write(
+        self, buf: bytearray, *, start: int = 0, end: Optional[int] = None
+    ) -> None:
         """
         Write the bytes from ``buf`` to the device.
 
