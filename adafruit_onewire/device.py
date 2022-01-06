@@ -28,7 +28,7 @@ class OneWireDevice:
         self._select_rom()
         return self
 
-    def __exit__(self, *exc):
+    def __exit__(self, exception_type: Optional[Type[type]], exception_value: Optional[BaseException], traceback: Optional[TracebackType]) -> bool:
         return False
 
     def readinto(self, buf, *, start=0, end=None):
