@@ -129,7 +129,7 @@ class OneWireBus:
         """Scan for devices on the bus and return a list of addresses."""
         devices = []
         diff = 65
-        rom = False
+        rom = None
         count = 0
         for _ in range(0xFF):
             rom, diff = self._search_rom(rom, diff)
