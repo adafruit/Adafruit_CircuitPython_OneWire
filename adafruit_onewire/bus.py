@@ -14,7 +14,7 @@ Provide access to a 1-Wire bus.
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_OneWire.git"
 
-import busio
+import onewireio
 from micropython import const
 
 try:
