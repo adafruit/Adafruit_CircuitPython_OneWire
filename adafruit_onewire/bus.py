@@ -65,7 +65,7 @@ class OneWireBus:
 
     def __init__(self, pin: Pin) -> None:
         # pylint: disable=no-member
-        self._ow = busio.OneWire(pin)
+        self._ow = onewireio.OneWire(pin)
         self._readbit = self._ow.read_bit
         self._writebit = self._ow.write_bit
         self._maximum_devices = _MAX_DEV
