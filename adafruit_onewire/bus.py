@@ -14,7 +14,7 @@ Provide access to a 1-Wire bus.
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_OneWire.git"
 
-import busio
+import onewireio
 from micropython import const
 
 try:
@@ -65,7 +65,7 @@ class OneWireBus:
 
     def __init__(self, pin: Pin) -> None:
         # pylint: disable=no-member
-        self._ow = busio.OneWire(pin)
+        self._ow = onewireio.OneWire(pin)
         self._readbit = self._ow.read_bit
         self._writebit = self._ow.write_bit
         self._maximum_devices = _MAX_DEV
