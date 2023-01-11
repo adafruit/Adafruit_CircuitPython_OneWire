@@ -19,6 +19,7 @@ from micropython import const
 
 try:
     from typing import Optional, List, Tuple
+    from circuitpython_typing import ReadableBuffer, WriteableBuffer
     from microcontroller import Pin
 except ImportError:
     pass
@@ -97,7 +98,7 @@ class OneWireBus:
         return not reset
 
     def readinto(
-        self, buf: bytearray, *, start: int = 0, end: Optional[int] = None
+        self, buf: WriteableBuffer, *, start: int = 0, end: Optional[int] = None
     ) -> None:
         """
         Read into ``buf`` from the device. The number of bytes read will be the
@@ -107,7 +108,7 @@ class OneWireBus:
         as if ``buf[start:end]``. This will not cause an allocation like
         ``buf[start:end]`` will so it saves memory.
 
-        :param bytearray buf: buffer to write into
+        :param ~WriteableBuffer buf: Buffer to write into
         :param int start: Index to start writing at
         :param int end: Index to write up to but not include
         """
@@ -117,7 +118,7 @@ class OneWireBus:
             buf[i] = self._readbyte()
 
     def write(
-        self, buf: bytearray, *, start: int = 0, end: Optional[int] = None
+        self, buf: ReadableBuffer, *, start: int = 0, end: Optional[int] = None
     ) -> None:
         """
         Write the bytes from ``buf`` to the device.
@@ -126,7 +127,7 @@ class OneWireBus:
         as if ``buffer[start:end]``. This will not cause an allocation like
         ``buffer[start:end]`` will so it saves memory.
 
-        :param bytearray buf: buffer containing the bytes to write
+        :param ReadableBuffer buf: Buffer containing the bytes to write
         :param int start: Index to start writing from
         :param int end: Index to read up to but not include
         """
@@ -168,7 +169,7 @@ class OneWireBus:
             self._ow.write_bit(bit)
 
     def _search_rom(
-        self, l_rom: Optional[bytearray], diff: int
+        self, l_rom: Optional[ReadableBuffer], diff: int
     ) -> Tuple[bytearray, int]:
         if not self.reset():
             return None, 0
@@ -197,11 +198,11 @@ class OneWireBus:
         return rom, next_diff
 
     @staticmethod
-    def crc8(data: bytearray) -> int:
+    def crc8(data: ReadableBuffer) -> int:
         """
         Perform the 1-Wire CRC check on the provided data.
 
-        :param bytearray data: 8 byte array representing 64 bit ROM code
+        :param ReadableBuffer data: 8 byte array representing 64 bit ROM code
         """
         crc = 0
 
