@@ -15,10 +15,12 @@ __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_OneWire.git"
 
 try:
-    from typing import Optional, Type
-    from circuitpython_typing import ReadableBuffer, WriteableBuffer
     from types import TracebackType
-    from adafruit_onewire.bus import OneWireBus, OneWireAddress
+    from typing import Optional, Type
+
+    from circuitpython_typing import ReadableBuffer, WriteableBuffer
+
+    from adafruit_onewire.bus import OneWireAddress, OneWireBus
 except ImportError:
     pass
 
@@ -44,9 +46,7 @@ class OneWireDevice:
     ) -> bool:
         return False
 
-    def readinto(
-        self, buf: WriteableBuffer, *, start: int = 0, end: Optional[int] = None
-    ) -> None:
+    def readinto(self, buf: WriteableBuffer, *, start: int = 0, end: Optional[int] = None) -> None:
         """
         Read into ``buf`` from the device. The number of bytes read will be the
         length of ``buf``.
@@ -64,9 +64,7 @@ class OneWireDevice:
             if self._bus.crc8(buf):
                 raise RuntimeError("CRC error.")
 
-    def write(
-        self, buf: ReadableBuffer, *, start: int = 0, end: Optional[int] = None
-    ) -> None:
+    def write(self, buf: ReadableBuffer, *, start: int = 0, end: Optional[int] = None) -> None:
         """
         Write the bytes from ``buf`` to the device.
 

@@ -18,7 +18,8 @@ import onewireio
 from micropython import const
 
 try:
-    from typing import Optional, List, Tuple
+    from typing import List, Optional, Tuple
+
     from circuitpython_typing import ReadableBuffer, WriteableBuffer
     from microcontroller import Pin
 except ImportError:
@@ -65,7 +66,6 @@ class OneWireBus:
     """A class to represent a 1-Wire bus."""
 
     def __init__(self, pin: Pin) -> None:
-        # pylint: disable=no-member
         self._ow = onewireio.OneWire(pin)
         self._readbit = self._ow.read_bit
         self._writebit = self._ow.write_bit
@@ -97,9 +97,7 @@ class OneWireBus:
             raise OneWireError("No presence pulse found. Check devices and wiring.")
         return not reset
 
-    def readinto(
-        self, buf: WriteableBuffer, *, start: int = 0, end: Optional[int] = None
-    ) -> None:
+    def readinto(self, buf: WriteableBuffer, *, start: int = 0, end: Optional[int] = None) -> None:
         """
         Read into ``buf`` from the device. The number of bytes read will be the
         length of ``buf``.
@@ -117,9 +115,7 @@ class OneWireBus:
         for i in range(start, end):
             buf[i] = self._readbyte()
 
-    def write(
-        self, buf: ReadableBuffer, *, start: int = 0, end: Optional[int] = None
-    ) -> None:
+    def write(self, buf: ReadableBuffer, *, start: int = 0, end: Optional[int] = None) -> None:
         """
         Write the bytes from ``buf`` to the device.
 
@@ -147,11 +143,7 @@ class OneWireBus:
             if rom:
                 count += 1
                 if count > self.maximum_devices:
-                    raise RuntimeError(
-                        "Maximum device count of {} exceeded.".format(
-                            self.maximum_devices
-                        )
-                    )
+                    raise RuntimeError(f"Maximum device count of {self.maximum_devices} exceeded.")
                 devices.append(OneWireAddress(rom))
             if diff == 0:
                 break
@@ -168,9 +160,7 @@ class OneWireBus:
             bit = (value >> i) & 0x1
             self._ow.write_bit(bit)
 
-    def _search_rom(
-        self, l_rom: Optional[ReadableBuffer], diff: int
-    ) -> Tuple[bytearray, int]:
+    def _search_rom(self, l_rom: Optional[ReadableBuffer], diff: int) -> Tuple[bytearray, int]:
         if not self.reset():
             return None, 0
         self._writebyte(_SEARCH_ROM)
@@ -186,11 +176,10 @@ class OneWireBus:
                 if self._readbit():
                     if b:  # there are no devices or there is an error on the bus
                         return None, 0
-                else:
-                    if not b:  # collision, two devices with different bit meaning
-                        if diff > i or ((l_rom[byte] & (1 << bit)) and diff != i):
-                            b = 1
-                            next_diff = i
+                elif not b:  # collision, two devices with different bit meaning
+                    if diff > i or ((l_rom[byte] & (1 << bit)) and diff != i):
+                        b = 1
+                        next_diff = i
                 self._writebit(b)
                 r_b |= b << bit
                 i -= 1
